@@ -1003,6 +1003,10 @@ public class BpfNetMaps {
 
     private <K extends Struct, V extends Struct> int getMapSize(IBpfMap<K, V> map)
             throws ErrnoException {
+        if (map == null) {
+            // Handle null map gracefully
+            return 0;
+        }
         // forEach could restart iteration from the beginning if there is a concurrent entry
         // deletion. netd and skDestroyListener could delete CookieTagMap entry concurrently.
         // So using Set to count the number of entry in the map.
